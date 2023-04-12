@@ -1,0 +1,1 @@
+# rails7_api_nuxt_boiler_template
