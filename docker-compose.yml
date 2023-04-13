@@ -12,7 +12,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - .:/usr/src/backend/app:delegated
+      - ./backend:/usr/src/backend:delegated
     depends_on:
       - db
       - redis
@@ -23,11 +23,11 @@ services:
       - BUNDLE_PATH=/backend/vendor/bundle
       - FIXTURE_PATH=db/fixtures/dev
     env_file: ./.env
-    working_dir: /usr/src/backend/app
+    working_dir: /usr/src/backend
   frontend:
     build: .
     volumes:
-      - .:/usr/src/frontend/src:delegated
+      - ./frontend:/usr/src/frontend:delegated
       # - node_modules:/src/node_modules
       # ↑ 次回起動後にコメントアウトを解除
     working_dir: /usr/src/frontend/src
