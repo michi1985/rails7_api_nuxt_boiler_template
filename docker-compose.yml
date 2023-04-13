@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  backend: &backend
+    build: .
+    command:
+      [
+        '/bin/sh',
+        '-c',
+        "rm -f tmp/pids/server.pid && cd backend && bundle exec rails s -p 3000 -b '0.0.0.0'",
+      ]
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/backend/app:delegated
+    depends_on:
+      - db
+      - redis
+    stdin_open: true
+    tty: true
+    environment:
+      - LANG=C.UTF-8
+      - BUNDLE_PATH=/backend/vendor/bundle
+      - FIXTURE_PATH=db/fixtures/dev
+    env_file: ./.env
+    working_dir: /usr/src/backend/app
+  frontend:
+    build: .
+    volumes:
+      - .:/usr/src/frontend/src:delegated
+      # - node_modules:/src/node_modules
+      # ↑ 次回起動後にコメントアウトを解除
+    working_dir: /usr/src/frontend/src
+    ports:
+      - 8000:8000
+    tty: true
+    environment:
+      - HOST=0.0.0.0
+      - port=8000
+      - CHOKIDAR_USEPOLLING=true
+  db:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - db:/var/lib/postgresql/data:delegated
+    ports:
+      - 5432:5432
+  data:
+    image: busybox
+    volumes:
+      - db:/var/lib/postgresql/data:delegated
+  generator:
+    <<: *backend
+    ports: []
+    command: echo 'generate is exited!'
+    depends_on:
+      - backend
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+  backend_test:
+    <<: *backend
+    container_name: test
+    command: echo 'test!'
+    depends_on:
+      - db
+    environment:
+      - LANG=C.UTF-8
+      - BUNDLE_PATH=vendor/bundle
+    ports: []
+
+volumes:
+  db:
+    driver: local
