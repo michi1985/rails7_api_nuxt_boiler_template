@@ -16,8 +16,8 @@ RUN ln -s /opt/yarn/bin/yarn /usr/local/bin/yarn \
 
 WORKDIR /usr/src
 
-COPY Gemfile /usr/src/backend/Gemfile
-COPY Gemfile.lock /usr/src/backend/Gemfile.lock
+COPY ./backend/Gemfile /usr/src/backend/Gemfile
+COPY ./backend/Gemfile.lock /usr/src/backend/Gemfile.lock
 RUN cd backend && bundle install
 
 COPY . .

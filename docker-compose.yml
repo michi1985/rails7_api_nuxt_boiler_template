@@ -69,7 +69,7 @@ services:
       - db
     environment:
       - LANG=C.UTF-8
-      - BUNDLE_PATH=vendor/bundle
+      - BUNDLE_PATH=backend/vendor/bundle
     ports: []
 
 volumes:
