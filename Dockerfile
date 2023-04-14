@@ -18,7 +18,7 @@ WORKDIR /usr/src
 
 COPY ./backend/Gemfile /usr/src/backend/Gemfile
 COPY ./backend/Gemfile.lock /usr/src/backend/Gemfile.lock
-RUN cd backend && bundle install
+RUN cd /usr/src/backend && bundle install
 
 COPY . .
 
