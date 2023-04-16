@@ -22,7 +22,7 @@ services:
     environment:
       - LANG=C.UTF-8
       - FIXTURE_PATH=db/fixtures/dev
-    env_file: ./.env
+    env_file: ./backend/.env
     working_dir: /usr/src/backend
   frontend:
     build: .
