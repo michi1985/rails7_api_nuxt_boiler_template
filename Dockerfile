@@ -8,6 +8,9 @@ RUN apt-get update -qq \
                     graphviz \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install nodejs
+
 COPY --from=node /opt/yarn-* /opt/yarn
 COPY --from=node /usr/local/bin/node /usr/local/bin/
 
